@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = FreeCombination
+title = Nameio
 
 # (str) Package name
 package.name = myapp
