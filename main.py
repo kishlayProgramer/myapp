@@ -166,7 +166,7 @@ class NameCombinationsGenerator(RelativeLayout):
 
 class NameCombinationsApp(App):
     def build(self):
-        Window.size = (350, 600)
+        # Window.size = (350, 600)
         return NameCombinationsGenerator()
 
 if __name__ == '__main__':
