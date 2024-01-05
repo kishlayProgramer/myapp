@@ -4,7 +4,7 @@
 title = Nameio
 
 # (str) Package name
-package.name = appTest
+package.name = appTestofnamio
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
