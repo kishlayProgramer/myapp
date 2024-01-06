@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
@@ -13,13 +14,13 @@ from kivy.core.clipboard import Clipboard
 class NameCombinationsGenerator(Screen):
     def __init__(self, **kwargs):
         super(NameCombinationsGenerator, self).__init__(**kwargs)
-
+        self.icon = "logo.png"
         self.spacing = 10
         self.padding = 10
 
-        self.entry = TextInput(hint_text='Enter your name', multiline=False, font_size=18, size_hint=(None, None), size=(300, 40), pos_hint={'center_x': 0.5, 'center_y': 0.9})
+        self.entry = TextInput(hint_text='Enter your name', multiline=False, font_size=34, size_hint=(None, None), size=(300, 70), pos_hint={'center_x': 0.5, 'center_y': 0.9})
         self.generate_button = MDRaisedButton(text='Generate Combinations', on_press=self.on_generate_button_click,
-                                              theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(0, 0.7, 0.9, 1), size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.8})
+                                              theme_text_color="Custom", text_color=("white"), md_bg_color=(0, 0.7, 0.9, 1), size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.8})
 
         self.scroll_layout = GridLayout(cols=1, spacing=10, size_hint_y=None)
         self.scroll_layout.bind(minimum_height=self.scroll_layout.setter('height'))
@@ -122,7 +123,7 @@ class NameCombinationsGenerator(Screen):
 
     def on_generate_button_click(self, instance):
         user_name = self.entry.text
-  
+
         if len(user_name) == 12 or len(user_name) > 12:
             self.show_error_dialog("Name must be less than 12 characters.")
         else:
@@ -131,12 +132,19 @@ class NameCombinationsGenerator(Screen):
             self.scroll_layout.clear_widgets()
 
             for i, combination in enumerate(combinations, start=1):
+                box_layout = BoxLayout(size_hint=(190, None), width=400, height=100, pos_hint={'center_x': 0.5, 'center_y': None})
+                
+                # Add an Image widget
+                image = Image(source='logo.png', size_hint=(None, None), size=(50, 50))
                 copy_button = MDRaisedButton(text=combination, on_press=lambda idx=i, c=combination: self.on_copy_button_click(idx, c),
-                                             theme_text_color="Custom", text_color=("black"), md_bg_color=("purple"), size_hint_y=None, height=40,
-                                             pos_hint={'center_x': 0.5, 'center_y': None})
-                self.scroll_layout.add_widget(copy_button)
+                                            theme_text_color="Custom", text_color=("white"), md_bg_color=("black"), size_hint=(90, None))
+                
+                box_layout.add_widget(image)
+                box_layout.add_widget(copy_button)
+                self.scroll_layout.add_widget(box_layout)
 
             self.update_scrollbar_visibility()
+
 
     def on_copy_button_click(self, index, combination):
         try:
@@ -182,6 +190,7 @@ class NameCombinationsApp(MDApp):
         self.theme_cls.primary_palette = "Orange"
         self.theme_cls.primary_hue = "100"
         self.theme_cls.theme_style = "Dark"
+        self.icon = "logo.png"
 
         # Create a ScreenManager to manage multiple screens
         sm = ScreenManager()
