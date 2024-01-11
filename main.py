@@ -6,8 +6,11 @@ from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
+from kivy.graphics import Color
+from kivy.graphics import Rectangle
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRaisedButton
+from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivy.core.clipboard import Clipboard
 
@@ -146,7 +149,7 @@ class NameCombinationsGenerator(Screen):
             self.update_scrollbar_visibility()
 
 
-    def on_copy_button_click(self, index, combination):
+    def on_copy_button_click(self, insdex, combination):
         try:
             Clipboard.copy(combination)
         except Exception as e:
@@ -163,17 +166,32 @@ class MoreToolsScreen(Screen):
 
         # Add elements for additional tools
         layout = BoxLayout(orientation='vertical')
-        label = Label(text="Additional Tools", font_size=18, size_hint_y=None, height=40)
-        button1 = Button(text="Tool 1", on_press=self.tool1_function, size_hint_y=None, height=40)
-        button2 = Button(text="Tool 2", on_press=self.tool2_function, size_hint_y=None, height=40)
-        go_back_button = Button(text="Go Back", on_press=self.go_back, size_hint_y=None, height=40)
+        label = Label(text="Comming Soon", font_size=49, size_hint_y=None, height=40)
+        # button1 = Button(text="Tool 1", on_press=self.tool1_function, size_hint_y=None, height=40)
+        # button2 = Button(text="Tool 2", on_press=self.tool2_function, size_hint_y=None, height=40)
+        go_back_button = Button(text="Go Back", on_press=self.go_back, size_hint_y=None, height=40, width=10)
 
         layout.add_widget(label)
-        layout.add_widget(button1)
-        layout.add_widget(button2)
+        # layout.add_widget(button1)
+        # layout.add_widget(button2)
         layout.add_widget(go_back_button)
 
+        # Set the background color using the canvas
+        with layout.canvas.before:
+            Color(0, 0, 0, 1)  # Set the color (black)
+            self.background_rect = Rectangle(pos=layout.pos, size=layout.size)
+
+        # Set the logo as the background
+        image = Image(source='Backofmore.png', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        layout.add_widget(image)
+
         self.add_widget(layout)
+
+        layout.bind(pos=self.update_rect, size=self.update_rect)
+
+    def update_rect(self, instance, value):
+        self.background_rect.pos = instance.pos
+        self.background_rect.size = instance.size
 
     def tool1_function(self, instance):
         print("Tool 1 function")
@@ -184,6 +202,7 @@ class MoreToolsScreen(Screen):
     def go_back(self, instance):
         app = MDApp.get_running_app()
         app.root.current = 'generator'
+
 
 class NameCombinationsApp(MDApp):
     def build(self):
