@@ -138,7 +138,7 @@ class NameCombinationsGenerator(Screen):
                 box_layout = BoxLayout(size_hint=(190, None), width=400, height=100, pos_hint={'center_x': 0.5, 'center_y': None})
                 
                 # Add an Image widget
-                image = Image(source='logo.png', size_hint=(None, None), size=(50, 50))
+                image = Image(source='Backofmore.png', size_hint=(None, None), size=(50, 50))
                 copy_button = MDRaisedButton(text=combination, on_press=lambda idx=i, c=combination: self.on_copy_button_click(idx, c),
                                             theme_text_color="Custom", text_color=("white"), md_bg_color=("black"), size_hint=(90, None))
                 
@@ -209,7 +209,7 @@ class NameCombinationsApp(MDApp):
         self.theme_cls.primary_palette = "Orange"
         self.theme_cls.primary_hue = "100"
         self.theme_cls.theme_style = "Dark"
-        self.icon = "logo.png"
+        self.icon = "Backofmore.png"
 
         # Create a ScreenManager to manage multiple screens
         sm = ScreenManager()
