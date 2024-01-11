@@ -4,7 +4,7 @@
 title = Nameio
 
 # (str) Package name
-package.name = GreatAppByGreatKishlay
+package.name = GreatAppByGreatKishlay1
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -159,7 +159,7 @@ fullscreen = 0
 
 # (str) Android app theme, default is ok for Kivy-based app
 # android.apptheme = "@android:style/Theme.NoTitleBar"
-icon.filename = %(source.dir)s/data/Backofmore.png
+
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
 
