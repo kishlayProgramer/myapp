@@ -4,7 +4,7 @@
 title = Nameio
 
 # (str) Package name
-package.name = AppWell
+package.name = GreatAppByGreatKishlay
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -44,7 +44,7 @@ requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.0.0,kivymd,pillow
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = %(source.dir)s/data/Backofmore.png
 
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png
@@ -159,7 +159,7 @@ fullscreen = 0
 
 # (str) Android app theme, default is ok for Kivy-based app
 # android.apptheme = "@android:style/Theme.NoTitleBar"
-
+icon.filename = %(source.dir)s/data/Backofmore.png
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
 
