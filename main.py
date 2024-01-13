@@ -5,21 +5,32 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.textinput import TextInput
-from kivy.graphics import Color
-from kivy.graphics import Rectangle
+from kivy.graphics import Color, Rectangle
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRaisedButton
-from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivy.core.clipboard import Clipboard
+from kivy.clock import Clock
 
 class NameCombinationsGenerator(Screen):
     def __init__(self, **kwargs):
         super(NameCombinationsGenerator, self).__init__(**kwargs)
-        self.icon = "logo.png"
+        self.icon = "logo.ico"
         self.spacing = 10
         self.padding = 10
+
+        # Use RelativeLayout as the root layout
+        self.root_layout = RelativeLayout()
+
+        # List of background images
+        self.background_images = ['MyBRO.jpeg', 'Badge.jpeg', 'Ajjubhai.jpeg', 'desi.png']
+        self.current_image_index = 0
+
+        # Add initial background image to the RelativeLayout
+        self.background_image = Image(source=self.background_images[self.current_image_index], allow_stretch=True, keep_ratio=False)
+        self.root_layout.add_widget(self.background_image)
 
         self.entry = TextInput(hint_text='Enter your name', multiline=False, font_size=34, size_hint=(None, None), size=(300, 70), pos_hint={'center_x': 0.5, 'center_y': 0.9})
         self.generate_button = MDRaisedButton(text='Generate Combinations', on_press=self.on_generate_button_click,
@@ -32,15 +43,28 @@ class NameCombinationsGenerator(Screen):
         self.scroll_view.add_widget(self.scroll_layout)
 
         # Add the text input and button at the top
-        self.add_widget(self.entry)
-        self.add_widget(self.generate_button)
-        self.add_widget(self.scroll_view)
+        self.root_layout.add_widget(self.entry)
+        self.root_layout.add_widget(self.generate_button)
+        self.root_layout.add_widget(self.scroll_view)
+
+        # Set the root_layout as the root widget for the screen
+        self.add_widget(self.root_layout)
 
         # "More Tools" button
         more_tools_button = MDRaisedButton(text='More Tools', on_press=self.on_more_tools_button_click,
                                            theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(0.5, 0.7, 0.5, 1), size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         self.add_widget(more_tools_button)
 
+        # Schedule the background change every 3 seconds
+        Clock.schedule_interval(self.change_background, 3)
+
+    def change_background(self, dt):
+        # Update the current image index
+        self.current_image_index = (self.current_image_index + 1) % len(self.background_images)
+        
+        # Change the background image
+        self.background_image.source = self.background_images[self.current_image_index]
+            
     def generate_combinations(self, name, limit=12):
         length = len(name)
         combinations = []
@@ -138,7 +162,7 @@ class NameCombinationsGenerator(Screen):
                 box_layout = BoxLayout(size_hint=(190, None), width=400, height=100, pos_hint={'center_x': 0.5, 'center_y': None})
                 
                 # Add an Image widget
-                image = Image(source='Backofmore.png', size_hint=(None, None), size=(50, 50))
+                image = Image(source='logo.png', size_hint=(None, None), size=(50, 50))
                 copy_button = MDRaisedButton(text=combination, on_press=lambda idx=i, c=combination: self.on_copy_button_click(idx, c),
                                             theme_text_color="Custom", text_color=("white"), md_bg_color=("black"), size_hint=(90, None))
                 
@@ -169,7 +193,7 @@ class MoreToolsScreen(Screen):
         label = Label(text="Comming Soon", font_size=49, size_hint_y=None, height=40)
         # button1 = Button(text="Tool 1", on_press=self.tool1_function, size_hint_y=None, height=40)
         # button2 = Button(text="Tool 2", on_press=self.tool2_function, size_hint_y=None, height=40)
-        go_back_button = Button(text="Go Back", on_press=self.go_back, size_hint_y=None, height=40, width=10)
+        go_back_button = MDRaisedButton(text="Go Back", on_press=self.go_back,theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(0.5, 0.7, 0.5, 1), size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.15, 'center_y': 0.1})
 
         layout.add_widget(label)
         # layout.add_widget(button1)
@@ -209,7 +233,7 @@ class NameCombinationsApp(MDApp):
         self.theme_cls.primary_palette = "Orange"
         self.theme_cls.primary_hue = "100"
         self.theme_cls.theme_style = "Dark"
-        self.icon = "Backofmore.png"
+        self.icon = "logo.png"
 
         # Create a ScreenManager to manage multiple screens
         sm = ScreenManager()
