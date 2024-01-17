@@ -4,7 +4,7 @@
 title = Nameio
 
 # (str) Package name
-package.name = GreatAppByGreatKishlay
+package.name = NameioByKishlay
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -46,7 +46,7 @@ requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.0.0,kivymd,pillow
 # (str) Presplash of the application
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/data/logo.png
+icon.filename = "logo.png"
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
@@ -91,6 +91,7 @@ fullscreen = 0
 # (str) Adaptive icon of the application (used if Android API level is 26+ at runtime)
 #icon.adaptive_foreground.filename = %(source.dir)s/data/icon_fg.png
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
+presplash.filename = "Backofmore.png"
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
