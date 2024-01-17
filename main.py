@@ -1,10 +1,25 @@
+from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.button import Button
+import webbrowser
+from kivy.metrics import sp
+from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.button import Button
+from kivy.uix.screenmanager import Screen
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
+from kivy.uix.label import Label
+from kivymd.uix.button import MDIconButton, MDRaisedButton
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.graphics import Color, Rectangle
+from kivy.clock import Clock
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+from kivymd.uix.button import MDIconButton
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, Rectangle
@@ -18,14 +33,14 @@ class NameCombinationsGenerator(Screen):
     def __init__(self, **kwargs):
         super(NameCombinationsGenerator, self).__init__(**kwargs)
         self.icon = "logo.ico"
-        self.spacing = 10
-        self.padding = 10
+        self.root_layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
 
         # Use RelativeLayout as the root layout
         self.root_layout = RelativeLayout()
 
         # List of background images
-        self.background_images = ['MyBRO.jpeg', 'Badge.jpeg', 'Ajjubhai.jpeg', 'desi.png']
+        self.background_images = ['MyBRO.jpeg']
         self.current_image_index = 0
 
         # Add initial background image to the RelativeLayout
@@ -52,7 +67,8 @@ class NameCombinationsGenerator(Screen):
 
         # "More Tools" button
         more_tools_button = MDRaisedButton(text='More Tools', on_press=self.on_more_tools_button_click,
-                                           theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(0.5, 0.7, 0.5, 1), size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.1})
+                                           theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(0.5, 0.7, 0.5, 1),
+                                           size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.1})
         self.add_widget(more_tools_button)
 
         # Schedule the background change every 3 seconds
@@ -172,8 +188,7 @@ class NameCombinationsGenerator(Screen):
 
             self.update_scrollbar_visibility()
 
-
-    def on_copy_button_click(self, insdex, combination):
+    def on_copy_button_click(self, index, combination):
         try:
             Clipboard.copy(combination)
         except Exception as e:
@@ -191,13 +206,20 @@ class MoreToolsScreen(Screen):
         # Add elements for additional tools
         layout = BoxLayout(orientation='vertical')
         label = Label(text="Comming Soon", font_size=49, size_hint_y=None, height=40)
-        # button1 = Button(text="Tool 1", on_press=self.tool1_function, size_hint_y=None, height=40)
-        # button2 = Button(text="Tool 2", on_press=self.tool2_function, size_hint_y=None, height=40)
-        go_back_button = MDRaisedButton(text="Go Back", on_press=self.go_back,theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(0.5, 0.7, 0.5, 1), size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.15, 'center_y': 0.1})
+
+
+        about_developer_button = MDRaisedButton(text="See More", on_press=self.open_new_page,
+                                        theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(1, 0.7, 0.2, 1),
+                                        size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+
+
+        go_back_button = MDIconButton(icon="backarow.png", on_press=self.go_back,
+                               theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=("black"),
+                               pos_hint={'center_x': 0.15, 'center_y': 0.1})
 
         layout.add_widget(label)
-        # layout.add_widget(button1)
-        # layout.add_widget(button2)
+        # layout.add_widget(about_developer_button)
+        layout.add_widget(about_developer_button)
         layout.add_widget(go_back_button)
 
         # Set the background color using the canvas
@@ -213,20 +235,133 @@ class MoreToolsScreen(Screen):
 
         layout.bind(pos=self.update_rect, size=self.update_rect)
 
-    def update_rect(self, instance, value):
-        self.background_rect.pos = instance.pos
-        self.background_rect.size = instance.size
+    def about_developer_function(self, instance):
+        # Define the action for the "About Great Developer" button
+        print("About Great Developer Button Clicked")
 
-    def tool1_function(self, instance):
-        print("Tool 1 function")
-
-    def tool2_function(self, instance):
-        print("Tool 2 function")
+    def open_new_page(self, instance):
+        # Open the New Page Screen
+        app = MDApp.get_running_app()
+        app.root.current = 'new_page'
 
     def go_back(self, instance):
+        # Define the action for the "Go Back" button
         app = MDApp.get_running_app()
         app.root.current = 'generator'
 
+    def update_rect(self, instance, value):
+        self.background_rect.pos = instance.pos
+        self.background_rect.size = instance.size
+class TableScreen(Screen):
+    def __init__(self, **kwargs):
+        super(TableScreen, self).__init__(**kwargs)
+
+        # Create a GridLayout for the table
+        table_layout = GridLayout(cols=2, spacing=10, size_hint=(0.8, 0.8), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+
+        # Add labels and values to the table
+        labels_and_values = {
+            "Name:": "Kishlay",
+            "Age:": "13",
+            "Website:": "firewa.com",
+            "YouTube:": "FireWa"
+        }
+
+        for label, value in labels_and_values.items():
+            label_widget = Label(text=label, font_size=sp(20), halign='left', valign='middle')
+
+            # Check if the label is "YouTube"
+            if label.lower() == "youtube:":
+                button = MDRaisedButton(
+                    text=value,
+                    on_press=self.open_youtube_page,
+                    theme_text_color="Custom",
+                    text_color=(1, 1, 1, 1),
+                    md_bg_color=(1, 0.7, 0.2, 1),
+                    size_hint=(None, None),
+                    size=(300, 60),
+                    pos_hint={'center_x': 0.5, 'center_y': 0.3},
+                )
+                table_layout.add_widget(label_widget)
+                table_layout.add_widget(button)
+            else:
+                value_widget = Label(text=value, font_size=sp(20), halign='left', valign='middle')
+                table_layout.add_widget(label_widget)
+                table_layout.add_widget(value_widget)
+
+
+        # Add the table layout to the screen
+        self.add_widget(table_layout)
+
+        # Add a "Go Back" button
+        go_back_button = MDIconButton(icon="backarow.png", on_press=self.go_back,
+                               theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=("black"),
+                               pos_hint={'center_x': 0.15, 'center_y': 0.1})
+        self.add_widget(go_back_button)
+
+    def open_youtube_page(self, instance):
+        # Open the YouTube page in a web browser
+        webbrowser.open("https://www.youtube.com/@Fire_Wa")
+
+    def go_back(self, instance):
+        # Go back to the New Page Screen
+        app = MDApp.get_running_app()
+        app.root.current = 'new_page'
+
+class NewPageScreen(Screen):
+    def __init__(self, **kwargs):
+        super(NewPageScreen, self).__init__(**kwargs)
+
+        # Use a BoxLayout as the root layout
+        self.root_layout = BoxLayout(orientation='vertical')
+
+        # Add an icon button for "Go Back"
+        go_back_button = MDIconButton(icon="backarow.png", on_press=self.go_back,
+                                      theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=("black"),
+                                      pos_hint={'center_x': 0.15, 'center_y': 0.1})
+        self.root_layout.add_widget(go_back_button)
+
+        show_table_button = MDRaisedButton(text="About Me", on_press=self.show_table,
+                                           theme_text_color="Custom", text_color=(1, 1, 1, 1), md_bg_color=(1, 0.7, 0.2, 1),
+                                           size_hint=(None, None), size=(300, 60), pos_hint={'center_x': 0.5, 'center_y': 0.4})
+        self.root_layout.add_widget(show_table_button)
+
+        # Create a RelativeLayout for the layout
+        self.relative_layout = RelativeLayout()
+
+        # Add a label with some text to the layout
+        responsive_label = Label(text="UnderRated God Players", font_size='20sp', color=(1, 1, 1, 1),  pos_hint={'center_x': 0.5, 'center_y': 0.9})
+        responsive_label2 = Label(text="COMMING SOON", font_size='20sp', color=(1, 1, 1, 1),  pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        self.relative_layout.add_widget(responsive_label)
+        self.relative_layout.add_widget(responsive_label2)
+
+        with self.relative_layout.canvas.before:
+            Color(0, 0, 0, 0)  # Set the color (black)
+            self.background_rect = Rectangle(pos=self.relative_layout.pos, size=self.relative_layout.size)
+
+        # Set the logo as the background
+        image = Image(source='bihari gamer.jpg', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        self.relative_layout.add_widget(image)
+
+        self.root_layout.add_widget(self.relative_layout)
+
+        self.relative_layout.bind(pos=self.update_rect, size=self.update_rect)
+        self.add_widget(self.root_layout)
+
+    def go_back(self, instance):
+        # Go back to the More Tools Screen
+        app = MDApp.get_running_app()
+        app.root.current = 'more_tools'
+
+    def show_table(self, instance):
+        # Open the Table Screen
+        app = MDApp.get_running_app()
+        app.root.current = 'table_screen'
+
+    def update_rect(self, instance, value):
+        # Update the background rectangle position and size
+        self.background_rect.pos = instance.pos
+        self.background_rect.size = instance.size
 
 class NameCombinationsApp(MDApp):
     def build(self):
@@ -245,6 +380,12 @@ class NameCombinationsApp(MDApp):
         # Add the MoreToolsScreen
         more_tools_screen = MoreToolsScreen(name='more_tools')
         sm.add_widget(more_tools_screen)
+
+        # Add the NewPageScreen
+        table_screen = TableScreen(name='table_screen')
+        sm.add_widget(table_screen)
+        new_page_screen = NewPageScreen(name='new_page')
+        sm.add_widget(new_page_screen)
 
         return sm
 
