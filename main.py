@@ -40,12 +40,8 @@ class NameCombinationsGenerator(Screen):
         self.root_layout = RelativeLayout()
 
         # List of background images
-        self.background_images = ['MyBRO.jpeg']
-        self.current_image_index = 0
-
-        # Add initial background image to the RelativeLayout
-        self.background_image = Image(source=self.background_images[self.current_image_index], allow_stretch=True, keep_ratio=False)
-        self.root_layout.add_widget(self.background_image)
+        background_image = Image(source='MyBRO.jpeg', allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
+        self.add_widget(background_image)
 
         self.entry = TextInput(hint_text='Enter your name', multiline=False, font_size=34, size_hint=(None, None), size=(300, 70), pos_hint={'center_x': 0.5, 'center_y': 0.9})
         self.generate_button = MDRaisedButton(text='Generate Combinations', on_press=self.on_generate_button_click,
@@ -72,7 +68,7 @@ class NameCombinationsGenerator(Screen):
         self.add_widget(more_tools_button)
 
         # Schedule the background change every 3 seconds
-        Clock.schedule_interval(self.change_background, 3)
+        # Clock.schedule_interval(self.change_background, 3)
 
     def change_background(self, dt):
         # Update the current image index
