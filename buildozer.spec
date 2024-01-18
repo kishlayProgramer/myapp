@@ -45,7 +45,7 @@ requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.0.0,kivymd,pillow
 
 # (str) Presplash of the application
 
-presplash.filename = 'Backofmore.png'
+#presplash.filename = 'Backofmore.png'
 # (str) Icon of the application
 #icon.filename = 'logo.png'
 
